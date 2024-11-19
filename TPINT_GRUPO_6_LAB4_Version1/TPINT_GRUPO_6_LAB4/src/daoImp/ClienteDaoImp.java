@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 import Entidades.Cliente;
 import Entidades.Usuario;
-import dao.Bancodao;
+import dao.ClienteDao;
 import daoImp.Conexion;
 
 
-public class BancodaoImp implements Bancodao {
+public class ClienteDaoImp implements ClienteDao {
 	
 private static final String insertCliente = "INSERT INTO Cliente (DNI,CUIL,Nombre,Apellido,Sexo,Nacionalidad,FechaNacimiento,Direccion,Localidad,Provincia,CorreoElectronico,Telefono,Activo) VALUES(?, ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
 private static final String insertUsuario = "INSERT INTO usuario (NombreUsuario, Contraseña, idCliente, TipoUsario, Activo) VALUES (?, ?, ?,?,?)";
@@ -378,6 +378,133 @@ public Usuario verificarCredenciales(String username, String password) {
     }
 
     return usuario;
+}
+
+@Override
+public ArrayList<Cliente> filtrarClienteXsexo(String sexo) {
+	try {
+        Class.forName("com.mysql.jdbc.Driver");
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    }
+
+    String query = "SELECT * FROM cliente WHERE Activo = 1 AND Sexo = ?";
+    ArrayList<Cliente> lista = new ArrayList<>();
+
+    try (Connection conexion = Conexion.getConexion().getSQLConexion();
+         PreparedStatement statement = conexion.prepareStatement(query)) {
+    	
+        statement.setString(1, sexo);
+        ResultSet rs = statement.executeQuery();
+
+        // Procesar los resultados
+        while (rs.next()) {
+            Cliente cli = new Cliente();
+            cli.setId(rs.getInt("Id"));
+            cli.setDni(rs.getInt("DNI"));
+            cli.setCuil(rs.getInt("CUIL"));
+            cli.setNombre(rs.getString("Nombre"));
+            cli.setApellido(rs.getString("Apellido"));
+            cli.setSexo(rs.getString("Sexo"));
+            cli.setNacionalidad(rs.getString("Nacionalidad"));
+            cli.setFechaNacimiento(rs.getString("FechaNacimiento"));
+            cli.setDireccion(rs.getString("Direccion"));
+            cli.setLocalidad(rs.getString("Localidad"));
+            cli.setProvincia(rs.getString("Provincia"));
+            cli.setCorreoElectronico(rs.getString("CorreoElectronico"));
+            cli.setTelefono(rs.getInt("Telefono"));
+            cli.setActivo(rs.getBoolean("Activo"));
+            lista.add(cli);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return lista;
+}
+
+@Override
+public boolean ValidacionDni(int dni) {
+	boolean exists = false;
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+
+    try {
+        
+        connection = Conexion.getConexion().getSQLConexion();
+        if (connection == null) {
+            throw new SQLException("Conexión a la base de datos es nula");
+        }
+
+        
+        String query = "SELECT COUNT(*) FROM cliente WHERE DNI = ?";
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, dni);
+
+        
+        resultSet = preparedStatement.executeQuery();
+
+        
+        if (resultSet.next()) {
+            exists = resultSet.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); 
+    } finally {
+        
+        try {
+            if (resultSet != null) resultSet.close();
+            if (preparedStatement != null) preparedStatement.close();
+            // NO cierres la conexión aquí si usas un pool de conexiones
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    return exists;
+}
+
+@Override
+public boolean ValidacionCuil(int cuil) {
+	boolean exists = false;
+    Connection connection = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultSet = null;
+
+    try {
+        
+        connection = Conexion.getConexion().getSQLConexion();
+        if (connection == null) {
+            throw new SQLException("Conexión a la base de datos es nula");
+        }
+
+        
+        String query = "SELECT COUNT(*) FROM cliente WHERE CUIL = ?";
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, cuil);
+
+        
+        resultSet = preparedStatement.executeQuery();
+
+        
+        if (resultSet.next()) {
+            exists = resultSet.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); 
+    } finally {
+        
+        try {
+            if (resultSet != null) resultSet.close();
+            if (preparedStatement != null) preparedStatement.close();
+            // NO cierres la conexión aquí si usas un pool de conexiones
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    return exists;
 }
 }
 

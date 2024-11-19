@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@page import="daoImp.BancodaoImp"%>
+<%@page import="daoImp.ClienteDaoImp"%>
 <%@page import="Entidades.Cliente"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,14 +12,14 @@
 <body>
 <jsp:include page="Navbar.jsp"/>
 
-<% 
+<%
 	String clienteId = request.getParameter("id"); // Recibe el parámetro 'id' desde la URL
 	int id = 0;
     Cliente cli = new Cliente(); 
     	
 	if (clienteId != null) {
     id = Integer.parseInt(clienteId); // Convierte el id a entero
-    BancodaoImp ban = new BancodaoImp();
+    ClienteDaoImp ban = new ClienteDaoImp();
     cli = ban.ObtenerDatosXid(id);
     	// Aquí puedes usar el id para cargar los datos del cliente o realizar alguna operación
 	} else 

@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Entidades.Cliente;
 import Entidades.Usuario;
-import daoImp.BancodaoImp;
+import daoImp.ClienteDaoImp;
 
 @WebServlet("/ServletBanco")
-public class ServletBanco extends HttpServlet {
+public class ServletCliente extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public ServletBanco() {
+    public ServletCliente() {
         super();
     }
 
@@ -33,7 +33,7 @@ public class ServletBanco extends HttpServlet {
         if (idClienteParam != null) {
             try {
                 int idCliente = Integer.parseInt(idClienteParam);
-                BancodaoImp banco = new BancodaoImp();          
+                ClienteDaoImp banco = new ClienteDaoImp();          
                 boolean bajaExitosa = banco.eliminarCliente(idCliente);
                 if (bajaExitosa) {
                     System.out.println("Cliente eliminado exitosamente.");
@@ -60,7 +60,7 @@ public class ServletBanco extends HttpServlet {
         if (request.getParameter("btnModificarCliente") != null) {
             Cliente cli = new Cliente();
             Usuario usu = new Usuario();
-            BancodaoImp bandolero = new BancodaoImp();
+            ClienteDaoImp bandolero = new ClienteDaoImp();
 
             cli.setId(Integer.parseInt(request.getParameter("txtId")));
             cli.setNombre(request.getParameter("txtNombre"));
@@ -87,23 +87,21 @@ public class ServletBanco extends HttpServlet {
 
         // Manejo de alta de cliente
         if (request.getParameter("btnAltaCliente") != null) {
-           
             String contrasena1 = request.getParameter("txtContrasena1");
             String contrasena2 = request.getParameter("txtContrasena2");
 
-            
             if (contrasena1 == null || contrasena2 == null || !contrasena1.equals(contrasena2)) {
-               
                 request.setAttribute("mensajeError", "Las contraseñas no coinciden. Por favor, intente nuevamente.");
                 request.getRequestDispatcher("/AltaCliente.jsp").forward(request, response);
-                return; 
+                return;
             }
 
+            ClienteDaoImp bandolero = new ClienteDaoImp();
+            
+            
+             
             Usuario usu = new Usuario();
             Cliente cli = new Cliente();
-
-            BancodaoImp bandolero = new BancodaoImp();
-
             cli.setNombre(request.getParameter("txtNombre"));
             cli.setApellido(request.getParameter("txtApellido"));
             cli.setDni(Integer.parseInt(request.getParameter("txtDNI")));
@@ -118,8 +116,8 @@ public class ServletBanco extends HttpServlet {
             cli.setTelefono(Integer.parseInt(request.getParameter("txtTelefono")));
 
             usu.setUsuario(request.getParameter("txtUsuario"));
-            usu.setContraseña(contrasena1);  
-            int tipoUsuario = 0;  
+            usu.setContraseña(contrasena1);
+            int tipoUsuario = 0;
             try {
                 tipoUsuario = Integer.parseInt(request.getParameter("txtTipoUsuario"));
             } catch (NumberFormatException e) {
@@ -127,13 +125,29 @@ public class ServletBanco extends HttpServlet {
             }
             usu.setTipoUsuario(tipoUsuario);
 
-            BancodaoImp bandao = new BancodaoImp();
+            ClienteDaoImp bandao = new ClienteDaoImp();
+            
+            int dni = Integer.parseInt(request.getParameter("txtDNI"));
+            int cuil = Integer.parseInt(request.getParameter("txtCUIL"));
+            
+            if (bandolero.ValidacionDni(dni)) {
+                request.setAttribute("mensajeError", "El DNI ya existe en la base de datos. Por favor, intente con otro DNI.");
+                request.getRequestDispatcher("/AltaCliente.jsp").forward(request, response);
+                return;
+            }
+            if (bandolero.ValidacionDni(cuil)) {
+                request.setAttribute("mensajeError", "El CUIL ya existe en la base de datos. Por favor, intente con otro CUIL.");
+                request.getRequestDispatcher("/AltaCliente.jsp").forward(request, response);
+                return;
+            }
+            
+            
             boolean insertado = bandao.insertCliente(cli, usu);
+            
 
             String mensaje = insertado ? "Cliente registrado exitosamente." : "Hubo un error al registrar el cliente.";
             request.setAttribute("mensaje", mensaje);
             request.getRequestDispatcher("/Administrador.jsp").forward(request, response);
-            return; 
         }
 
         // Validación del login
@@ -141,7 +155,7 @@ public class ServletBanco extends HttpServlet {
         String password = request.getParameter("txtpass");
 
         if (username != null && password != null) {
-            BancodaoImp bandolero = new BancodaoImp();
+            ClienteDaoImp bandolero = new ClienteDaoImp();
             Usuario usuario = bandolero.verificarCredenciales(username, password);
             
             if (usuario != null) {
