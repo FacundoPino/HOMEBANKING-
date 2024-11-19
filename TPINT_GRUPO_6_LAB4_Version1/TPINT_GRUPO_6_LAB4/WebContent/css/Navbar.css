@@ -1,0 +1,68 @@
+/* Navbar */
+.navegador {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding: 15px 30px;
+    background-color:#408080;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+}
+
+.navegador a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 15px;
+    transition: color 0.3s ease;
+}
+
+.navegador a:hover {
+    color: #c0f0ff;
+}
+
+.nav-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #c0f0ff;
+    margin-right: auto;
+}
+
+.logoNav img {
+    width: 28px;
+    height: 28px;
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+.logoNav img:hover {
+    transform: scale(1.15);
+    filter: brightness(1.2);
+}
+
+/* Time */
+.time {
+    color: #c0f0ff;
+    font-size: 1rem;
+    font-weight: 300;
+    margin-left: auto;
+}
+
+/* Media Queries para dispositivos pequeños */
+@media (max-width: 768px) {
+    .navegador {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-brand {
+        margin-bottom: 10px;
+    }
+
+    .time {
+        margin-top: 10px;
+    }
+}

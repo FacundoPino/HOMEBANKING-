@@ -1,0 +1,85 @@
+<%@ page import="daoImp.CuentadaoImp" %>
+<%@ page import="Entidades.Cuenta" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="dao.Cuentadao" %>
+<%@ page import="Entidades.Cliente" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Listado de Cuentas</title>
+    <link rel="stylesheet" type="text/css" href="css/Cliente.css">
+</head>
+<body>
+<jsp:include page="Navbar.jsp"/>
+<div class="encabezado">
+    <h1>Listado de Cuentas</h1>
+</div>
+
+<form method="post" action="ServletCuenta">
+    <fieldset>
+        <legend>Buscar Cuenta</legend>
+        <p>
+            <label for="buscar">Numero de DNI:</label>
+            <input id="buscar" type="text" name="txtBuscar">
+            <input type="submit" value="Buscar" name="btnFiltrar">
+        </p>
+    </fieldset>
+</form>
+
+<%
+    CuentadaoImp cuenta = new CuentadaoImp();
+    ArrayList<Cuenta> listaCuenta = (ArrayList<Cuenta>) request.getAttribute("listaCuenta");
+%>
+
+<table id="table_Cuenta" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>id cliente</th>
+            <th>Tipo de Cuenta</th>
+            <th>Fecha Creacion</th>
+            <th>Numero Cuenta</th>
+            <th>CBU</th>
+            <th>Saldo</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% 
+            if (listaCuenta != null && !listaCuenta.isEmpty()) {
+                for (Cuenta cuentaItem : listaCuenta) {  
+        %>
+            <tr>
+                <form action="ModificarCuentas.jsp" method="get">
+                    <td><input type="hidden" name="idCuenta" value="<%= cuentaItem.getId() %>"></td>
+                    <td><%= cuentaItem.getIdCliente() %></td>
+                    <td><%= cuentaItem.getTipoCuenta() %></td>
+                    <td><%= cuentaItem.getFechaCreacion() %></td>
+                    <td><%= cuentaItem.getNumeroCuenta() %></td>
+                    <td><%= cuentaItem.getCbu() %></td>
+                    <td><%= cuentaItem.getSaldo() %></td>
+                    <td><%= cuentaItem.isActivo() %></td>
+                    <td>
+                        <input type="submit" value="Modificar" name="btnModificar"/>
+                        <input type="submit" value="Eliminar" name="btnEliminar"/>
+                    </td>
+                </form>
+            </tr>
+        <% 
+                }
+            } else { 
+        %> 
+            <tr>
+                <td colspan="9">No se encontraron cuentas.</td>
+            </tr>
+        <% 
+            }
+        %>
+    </tbody>
+</table>
+
+<jsp:include page="Footer.jsp"/>
+</body>
+</html>

@@ -1,0 +1,122 @@
+.contenedorPrincipal {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+   
+}
+
+.Encabezado
+	{
+		background-color:#408080;
+		height:50px;
+		border-radius: 80px 20px 0px 0px; 
+		font-size: 40px;
+		font-weight: bold;
+		
+		text-align: center;
+	}
+.Saludo {
+	color: #b8d6a3;
+}
+	
+.Estado{
+	background-color:#40a29f;
+		font-size: 20px;
+		text-align: center;
+			color: #cbdbb9;
+			font-weight: bold;
+		
+	}
+	
+.Cuentas {
+	
+	margin: auto;
+    width: auto;
+    height: 213px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.Cuenta1, .Cuenta2, .Cuenta3 { 
+	font-family: verdana;
+    width: 300px; 
+    height: 200px;
+    padding: 20px;
+    margin: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #408080;
+    border-radius:50px;
+    justify-content: center;
+}
+	
+	.btn_movimientos, .btn_cbu {
+
+   border: none; 
+   border-color: none;
+   background-color: white;
+    padding: 8px 12px;
+
+}
+.btn_movimientos:hover, .btn_cbu:hover {
+	
+	 border: 1px solid; 
+    text-decoration: underline;
+	
+	
+}
+
+
+.accesoRapido {
+   font-size: 30px;
+   text-align: center;
+   background-color: #408080; 
+   Color: #b8d6a3;
+}
+
+.Opciones {
+    width: auto;
+    display: flex;
+    justify-content: space-between; 
+    gap: 10px; 
+    padding: 10px;
+}
+
+.BtnOpciones {
+    flex-grow: 1; 
+    height: 100px;
+    font-size: 20px;
+    background-color: #deedec;
+    color: #333333;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-align: center; 
+   
+}
+
+	.BtnOpciones:hover {
+            background-color: #50abc9 ;
+          
+        }
+	
+	
+	
+	
+	
+	
+	
+	.footer {
+    background-color: #408080;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9em;
+    border-radius: 0px 0px 10px 10px; 
+}
+	
