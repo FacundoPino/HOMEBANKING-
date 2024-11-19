@@ -10,9 +10,9 @@ import java.util.Random;
 
 import Entidades.Cliente;
 import Entidades.Cuenta;
-import dao.Cuentadao;
+import dao.CuentaDao;
 
-public class CuentadaoImp implements Cuentadao {
+public class CuentaDaoImpl implements CuentaDao {
 
     private static final String insertCuenta = "INSERT INTO cuenta ( IdCliente, TipoCuenta, FechaCreacion , NumeroCuenta, CBU, Saldo, Activo) VALUES ( ?, ?, CURDATE(), ?, ?, 10000, ?)";
     private static final String ListarCuenta = "select cuenta.id as id,  cuenta.idcliente as IdCliente , cuenta.tipocuenta as TipoCuenta, cuenta.FechaCreacion as FechaCreacion, cuenta.NumeroCuenta , cuenta.CBU as CBU, cuenta.Saldo as Saldo, cuenta.Activo as Activo from cuenta inner join cliente on cuenta.IdCliente = cliente.id where cliente.DNI = ?";
@@ -107,10 +107,7 @@ public class CuentadaoImp implements Cuentadao {
         cbu = 1000000000 + random.nextInt(900000000);
         return cbu;
     }
-
-    
-    
-    
+ 
     public ArrayList<Cuenta> ListarCuenta(int DNI) {
         ArrayList<Cuenta> ListaCuenta = new ArrayList<>();
         String query = ListarCuenta; 
@@ -142,16 +139,9 @@ public class CuentadaoImp implements Cuentadao {
             
         }
         
-        
-        
-        
         return ListaCuenta;
-    }
-    
-    
-    
-    
-
+    }    
+ 
     public boolean EliminarCuenta(int id) {
         boolean exitoso = false;
         Connection conexion = Conexion.getConexion().getSQLConexion();

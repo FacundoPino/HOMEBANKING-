@@ -1,8 +1,7 @@
-<%@ page import="daoImp.CuentadaoImp" %>
+<%@ page import="daoImp.CuentaDaoImpl" %>
 <%@ page import="Entidades.Cuenta" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="dao.Cuentadao" %>
-<%@ page import="Entidades.Cliente" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +27,9 @@
 </form>
 
 <%
-    CuentadaoImp cuenta = new CuentadaoImp();
-    ArrayList<Cuenta> listaCuenta = (ArrayList<Cuenta>) request.getAttribute("listaCuenta");
+	CuentaDaoImpl cuenta = new CuentaDaoImpl();
+    ArrayList<Cuenta> listaCuenta = (ArrayList<Cuenta>)request.getAttribute("listaCuenta"); 
+    
 %>
 
 <table id="table_Cuenta" class="display">
@@ -52,7 +52,7 @@
                 for (Cuenta cuentaItem : listaCuenta) {  
         %>
             <tr>
-                <form action="ModificarCuentas.jsp" method="get">
+                <form action="ModificarCuenta.jsp" method="get">
                     <td><input type="hidden" name="idCuenta" value="<%= cuentaItem.getId() %>"></td>
                     <td><%= cuentaItem.getIdCliente() %></td>
                     <td><%= cuentaItem.getTipoCuenta() %></td>

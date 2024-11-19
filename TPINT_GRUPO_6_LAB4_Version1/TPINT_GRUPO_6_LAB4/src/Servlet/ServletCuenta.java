@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Entidades.Cuenta;
-import dao.Cuentadao;
-import daoImp.CuentadaoImp;
+import dao.CuentaDao;
+import daoImp.CuentaDaoImpl;
+import negocioImpl.CuentaNegocioImpl;
 
 @WebServlet("/ServletCuenta")
 public class ServletCuenta extends HttpServlet {
@@ -26,22 +27,26 @@ public class ServletCuenta extends HttpServlet {
     	    cuenta.setTipoCuenta(Integer.parseInt(request.getParameter("txtTipoCuenta")));
     	    cuenta.setActivo(true);
 
-    	    CuentadaoImp cuentadao = new CuentadaoImp();
-    	    boolean insertado = cuentadao.insertCuenta(cuenta);
+    	    //CuentaDaoImpl cuentadao = new CuentaDaoImpl();
+    	    CuentaNegocioImpl cuentaNegocio = new CuentaNegocioImpl();
+    	    
+    	    boolean insertado = cuentaNegocio.insertCuenta(cuenta);
+    	    
 
     	    String mensaje = insertado ? "Cuenta creada exitosamente." : "Hubo un error al crear la cuenta.";
     	    request.setAttribute("mensaje", mensaje);
 
     	    RequestDispatcher dispatcher = request.getRequestDispatcher("/Administrador.jsp");
     	    dispatcher.forward(request, response);
-    	    return; // Detener ejecución aquí
+    	    return; 
     	} 
 
     	if (request.getParameter("btnFiltrar") != null) {
     	    int DNI = Integer.parseInt(request.getParameter("txtBuscar"));
     	    
-    	    CuentadaoImp cuentadao = new CuentadaoImp();
-    	    ArrayList<Cuenta> lista = cuentadao.ListarCuenta(DNI);
+    	    //CuentaDaoImpl cuentadao = new CuentaDaoImpl();
+    	    CuentaNegocioImpl cuentaNegocio = new CuentaNegocioImpl();
+    	    ArrayList<Cuenta> lista = cuentaNegocio.ListarCuenta(DNI);
     	    request.setAttribute("listaCuenta", lista);
     	    
     	    RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");
@@ -52,8 +57,9 @@ public class ServletCuenta extends HttpServlet {
     	if (request.getParameter("btnEliminar") != null) {
     	    int id = Integer.parseInt(request.getParameter("idCuenta"));
     	    
-    	    CuentadaoImp cuentadao = new CuentadaoImp();
-    	    cuentadao.EliminarCuenta(id);
+    	   // CuentaDaoImpl cuentadao = new CuentaDaoImpl();
+    	    CuentaNegocioImpl cuentaNegocio = new CuentaNegocioImpl();
+    	    cuentaNegocio.EliminarCuenta(id);
     	    
     	    RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");
     	    rd.forward(request, response);
@@ -76,8 +82,9 @@ public class ServletCuenta extends HttpServlet {
     	    cuenta.setSaldo(saldo);
     	    cuenta.setActivo(activo);
 
-    	    CuentadaoImp cuentadao = new CuentadaoImp();
-    	    boolean modificada = cuentadao.modificarCuenta(cuenta);
+    	   //CuentaDaoImpl cuentadao = new CuentaDaoImpl();
+    	    CuentaNegocioImpl cuentaNegocio = new CuentaNegocioImpl();
+    	    boolean modificada = cuentaNegocio.modificarCuenta(cuenta);
     	    
     	    String mensaje = modificada ? "Cuenta modificada exitosamente." : "Hubo un error al modificar la cuenta.";
     	    request.setAttribute("mensaje", mensaje);

@@ -55,7 +55,7 @@
     <div>
     
 <button id="btnAgregar" type="submit" class="button button-blue" onclick="window.location.href='AltaCuentas.jsp'" >Agregar Cuenta</button>
-<button id="btnModificar" type="submit" class="button button-blue" onclick="window.location.href='ModificarCuentas.jsp'" >Modificar Cuenta</button>
+<button id="btnModificar" type="submit" class="button button-blue" onclick="window.location.href='ModificarCuenta.jsp'" >Modificar Cuenta</button>
 <button id="btnEliminar" type="submit" class="button button-red">Eliminar</button>
     </div>
     

@@ -1,10 +1,10 @@
-<%@ page import="daoImp.CuentadaoImp" %>
+<%@ page import="daoImp.CuentaDaoImpl" %>
 <%@ page import="Entidades.Cuenta" %>
-<%@ page import="dao.Cuentadao" %>
+<%@ page import="dao.CuentaDao" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 
 <%
-    String idCuentaParam = request.getParameter("idCuenta");
+	String idCuentaParam = request.getParameter("idCuenta");
     int idCuenta = 0;
 
     if (idCuentaParam != null && !idCuentaParam.isEmpty()) {
@@ -14,7 +14,7 @@
             e.printStackTrace();     
         }
     }
-    Cuentadao cuentadao = new CuentadaoImp();
+    CuentaDao cuentadao = new CuentaDaoImpl();
     Cuenta cuenta = cuentadao.obtenerCuentaPorId(idCuenta);
 %>
 
