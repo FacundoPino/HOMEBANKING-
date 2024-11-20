@@ -47,7 +47,7 @@ public class ServletCuenta extends HttpServlet {
     	    //CuentaDaoImpl cuentadao = new CuentaDaoImpl();
     	    CuentaNegocioImpl cuentaNegocio = new CuentaNegocioImpl();
     	    ArrayList<Cuenta> lista = cuentaNegocio.ListarCuenta(DNI);
-    	    request.setAttribute("listaCuenta", lista);
+    	    request.setAttribute("listaCuentaFiltrada", lista);
     	    
     	    RequestDispatcher rd = request.getRequestDispatcher("/ListarCuenta.jsp");
     	    rd.forward(request, response);

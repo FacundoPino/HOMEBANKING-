@@ -28,8 +28,18 @@
 
 <%
 	CuentaDaoImpl cuenta = new CuentaDaoImpl();
-    ArrayList<Cuenta> listaCuenta = (ArrayList<Cuenta>)request.getAttribute("listaCuenta"); 
+    ArrayList<Cuenta> listaCuenta;
+ 
+    		if ((ArrayList<Cuenta>)request.getAttribute("listaCuentaFiltrada") != null){
+    			
+    			listaCuenta =(ArrayList<Cuenta>)request.getAttribute("listaCuentaFiltrada");
+    		}
+    		else {
+    			listaCuenta = cuenta.ListarCuenta();
     
+    		}  
+    		
+   
 %>
 
 <table id="table_Cuenta" class="display">

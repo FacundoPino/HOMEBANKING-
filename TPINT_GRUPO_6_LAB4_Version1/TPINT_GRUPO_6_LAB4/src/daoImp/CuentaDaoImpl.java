@@ -16,6 +16,7 @@ public class CuentaDaoImpl implements CuentaDao {
 
     private static final String insertCuenta = "INSERT INTO cuenta ( IdCliente, TipoCuenta, FechaCreacion , NumeroCuenta, CBU, Saldo, Activo) VALUES ( ?, ?, CURDATE(), ?, ?, 10000, ?)";
     private static final String ListarCuenta = "select cuenta.id as id,  cuenta.idcliente as IdCliente , cuenta.tipocuenta as TipoCuenta, cuenta.FechaCreacion as FechaCreacion, cuenta.NumeroCuenta , cuenta.CBU as CBU, cuenta.Saldo as Saldo, cuenta.Activo as Activo from cuenta inner join cliente on cuenta.IdCliente = cliente.id where cliente.DNI = ?";
+    private static final String ListarCuentaTodos = "select cuenta.id as id,  cuenta.idcliente as IdCliente , cuenta.tipocuenta as TipoCuenta, cuenta.FechaCreacion as FechaCreacion, cuenta.NumeroCuenta , cuenta.CBU as CBU, cuenta.Saldo as Saldo, cuenta.Activo as Activo from cuenta inner join cliente on cuenta.IdCliente = cliente.id";
     private static final String EliminarCuenta = "UPDATE cuenta SET Activo = 0 WHERE id = ?";
     private static final String ModificarCuenta = "UPDATE cuenta SET TipoCuenta = ?, NumeroCuenta = ?, CBU = ?, Saldo = ?, Activo = ? WHERE Id = ?";
     private static final String ObtenerCuentaPorId = "SELECT * FROM cuenta WHERE id = ?";
@@ -108,9 +109,13 @@ public class CuentaDaoImpl implements CuentaDao {
         return cbu;
     }
  
+    
     public ArrayList<Cuenta> ListarCuenta(int DNI) {
         ArrayList<Cuenta> ListaCuenta = new ArrayList<>();
+        
+        
         String query = ListarCuenta; 
+        
         Connection con = Conexion.getConexion().getSQLConexion();
         
         
@@ -118,6 +123,40 @@ public class CuentaDaoImpl implements CuentaDao {
         	PreparedStatement ps = con.prepareStatement(query); 
         	
         	ps.setInt(1, DNI );
+        	ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+            	
+                Cuenta cue = new Cuenta();
+                cue.setId(rs.getInt("Id"));
+                cue.setIdCliente(rs.getInt("IdCliente"));
+                cue.setTipoCuenta(rs.getInt("TipoCuenta"));
+                cue.setFechaCreacion(rs.getString("FechaCreacion"));
+                cue.setNumeroCuenta(rs.getInt("NumeroCuenta"));
+                cue.setCbu(rs.getInt("CBU"));
+                cue.setSaldo(rs.getFloat("Saldo"));
+                cue.setActivo(rs.getBoolean("Activo"));
+                ListaCuenta.add(cue);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            
+        }
+        return ListaCuenta;
+    }    
+    public ArrayList<Cuenta> ListarCuenta() {
+        ArrayList<Cuenta> ListaCuenta = new ArrayList<>();
+        
+        
+        String query = ListarCuentaTodos; 
+        
+        Connection con = Conexion.getConexion().getSQLConexion();
+        
+        
+        try {
+        	PreparedStatement ps = con.prepareStatement(query); 
+        	
+        
         	ResultSet rs = ps.executeQuery();
             while (rs.next()) {
             	
