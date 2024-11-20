@@ -6,6 +6,7 @@ import Entidades.Cliente;
 import Entidades.Cuenta;
 
 public interface CuentaDao {
+	//CuentaDao
 	public boolean insertCuenta(Cuenta cuenta);
 	public boolean EliminarCuenta(int id);
 	public ArrayList<Cuenta> ListarCuenta(int DNI);
