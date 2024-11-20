@@ -2,7 +2,6 @@ package dao;
 
 import java.util.ArrayList;
 
-import Entidades.Cliente;
 import Entidades.Cuenta;
 
 public interface CuentaDao {
